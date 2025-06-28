@@ -1,0 +1,77 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Cursor Rules for Beamy Project
+
+## User Preferences
+- Keep CSS media query based classes together - don't separate out e.g. don't have two 480px media query sections.
+- Use yarn, not npm
+
+## Tech Stack
+- **Frontend Framework**: React 18 with TypeScript
+- **Build Tool**: Vite 5.0.8
+- **Styling**: Tailwind CSS 3.4.0 (utility-first approach)
+- **CSS Processing**: PostCSS with Autoprefixer
+- **Package Manager**: Yarn
+- **Language**: TypeScript 5.2.2
+- **JSX Transform**: react-jsx
+- **Module System**: ESNext with bundler resolution
+
+## Project Structure
+- Entry point: `src/main.tsx`
+- Main component: `src/App.tsx`
+- Styling: `src/input.css` (Tailwind directives)
+- Built CSS: `dist/output.css`
+- Static HTML: `index.html`
+
+## Development Guidelines
+
+### TypeScript
+- Use strict mode with all linting options enabled
+- Target ES2020 with DOM libraries
+- Use modern module resolution (bundler mode)
+- Prefer explicit typing over any
+- Use React.FC or function components with proper typing
+
+### React
+- Use functional components with hooks
+- Prefer composition over inheritance
+- Use React 18 features (concurrent features, automatic batching)
+- Import React when using JSX (if needed for compatibility)
+
+### Styling with Tailwind
+- Use utility-first approach
+- Leverage Tailwind's responsive design system
+- Keep media query classes grouped together
+- Use custom CSS sparingly, prefer Tailwind utilities
+- Extend theme in tailwind.config.js when needed
+- Use semantic color names from Tailwind palette
+
+### Build & Development
+- Use Vite dev server for development
+- Build with `yarn build` (TypeScript compilation + Vite build)
+- CSS build: `yarn build-css` or `yarn watch-css`
+- Leverage Vite's fast HMR and modern bundling
+
+### File Organization
+- Components in `src/components/`
+- Use .tsx extension for React components
+- Use .ts for utility functions and types
+- Keep related files close together
+
+### Code Style
+- Use ES6+ features
+- Prefer const/let over var
+- Use template literals for string interpolation
+- Use destructuring for props and objects
+- Use arrow functions for inline functions
+- Use proper TypeScript interfaces and types
+
+## Commands
+- Development: `yarn dev`
+- Build: `yarn build`
+- Preview: `yarn preview`
+- CSS Build: `yarn build-css`
+- CSS Watch: `yarn watch-css` 
