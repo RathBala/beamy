@@ -1,0 +1,21 @@
+{
+  "name": "beamy",
+  "version": "1.0.0",
+  "description": "Support Network Wireframe",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css",
+    "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "serve": "npx serve ."
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  },
+  "keywords": [
+    "wireframe",
+    "tailwind",
+    "support-network"
+  ],
+  "author": "",
+  "license": "MIT"
+} 

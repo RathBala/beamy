@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Network - Main Dashboard Wireframe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'wireframe': ['Comic Sans MS', 'cursive', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-wireframe bg-gray-100 text-gray-800 leading-relaxed">
+    <div class="max-w-6xl mx-auto p-4">
+        <!-- Header -->
+        <header class="bg-white border-2 border-black p-4 mb-5 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="text-2xl font-bold">🤝 Support Network</div>
+            <nav class="flex flex-wrap gap-5 justify-center">
+                <div class="px-4 py-2 border border-black bg-gray-300">Dashboard</div>
+                <div class="px-4 py-2 border border-black bg-gray-300">People</div>
+                <div class="px-4 py-2 border border-black bg-gray-300">Network</div>
+                <div class="px-4 py-2 border border-black bg-gray-300">Settings</div>
+            </nav>
+        </header>
+
+        <!-- Quick Add Interaction -->
+        <section class="bg-white border-2 border-black p-5 mb-5">
+            <h2 class="text-lg font-bold mb-4 border-b border-black pb-2">Quick Add Interaction</h2>
+            <div class="flex flex-col md:flex-row gap-3 flex-wrap items-end">
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm">Person</label>
+                    <select class="p-2 border border-black bg-gray-50 min-w-[120px]">
+                        <option>Select person...</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm">Method</label>
+                    <select class="p-2 border border-black bg-gray-50 min-w-[120px]">
+                        <option>📞 Call</option>
+                        <option>💬 Text</option>
+                        <option>👥 In-person</option>
+                        <option>📧 Email</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm">Quality</label>
+                    <select class="p-2 border border-black bg-gray-50 min-w-[120px]">
+                        <option>⭐⭐⭐⭐⭐</option>
+                        <option>⭐⭐⭐⭐</option>
+                        <option>⭐⭐⭐</option>
+                    </select>
+                </div>
+                <button class="px-5 py-2 bg-gray-300 border-2 border-black font-bold cursor-pointer">+ Add</button>
+            </div>
+        </section>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+            <!-- Network Overview -->
+            <section class="bg-white border-2 border-black p-5">
+                <h2 class="text-lg font-bold mb-4 border-b border-black pb-2">Support Network Overview</h2>
+                <div class="h-48 border border-dashed border-gray-600 flex items-center justify-center bg-gray-50 my-3 text-center text-sm">
+                    [Interactive Network Map]<br/>
+                    ○ ─── ○ ─── ○<br/>
+                    │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br/>
+                    ○ ─── ● ─── ○<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;○
+                </div>
+                <div class="flex flex-col md:flex-row justify-between mt-3 gap-2">
+                    <div class="text-center p-2 border border-gray-600 bg-gray-100 flex-1">
+                        <div class="font-bold">12</div>
+                        <div class="text-sm">People</div>
+                    </div>
+                    <div class="text-center p-2 border border-gray-600 bg-gray-100 flex-1 mx-0 md:mx-1">
+                        <div class="font-bold">8</div>
+                        <div class="text-sm">Strong</div>
+                    </div>
+                    <div class="text-center p-2 border border-gray-600 bg-gray-100 flex-1">
+                        <div class="font-bold">4</div>
+                        <div class="text-sm">Weak</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Interactions -->
+            <section class="bg-white border-2 border-black p-5">
+                <h2 class="text-lg font-bold mb-4 border-b border-black pb-2">Recent Interactions</h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center py-2 border-b border-dotted border-gray-400">
+                        <div>
+                            <div class="font-bold">Sarah M.</div>
+                            <div class="text-xs text-gray-600">📞 Call • 2 hours ago</div>
+                        </div>
+                        <div>⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-dotted border-gray-400">
+                        <div>
+                            <div class="font-bold">Mom</div>
+                            <div class="text-xs text-gray-600">💬 Text • Yesterday</div>
+                        </div>
+                        <div>⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-dotted border-gray-400">
+                        <div>
+                            <div class="font-bold">Alex K.</div>
+                            <div class="text-xs text-gray-600">👥 Coffee • 3 days ago</div>
+                        </div>
+                        <div>⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-dotted border-gray-400">
+                        <div>
+                            <div class="font-bold">Jamie L.</div>
+                            <div class="text-xs text-gray-600">📧 Email • 1 week ago</div>
+                        </div>
+                        <div>⭐⭐⭐</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Insights & Recommendations -->
+        <section class="bg-white border-2 border-black p-5">
+            <h2 class="text-lg font-bold mb-4 border-b border-black pb-2">Insights & Recommendations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-4">
+                <div class="p-4 border border-gray-600 bg-gray-50">
+                    <div class="font-bold mb-2">💡 Reach Out Suggestions</div>
+                    <div class="py-1 border-l-4 border-gray-400 pl-2 my-1 text-sm">Check in with David - last contact 2 weeks ago</div>
+                    <div class="py-1 border-l-4 border-gray-400 pl-2 my-1 text-sm">Schedule call with mentor Lisa</div>
+                    <div class="py-1 border-l-4 border-gray-400 pl-2 my-1 text-sm">Text cousin Mike about weekend plans</div>
+                </div>
+                
+                <div class="p-4 border border-gray-600 bg-gray-50">
+                    <div class="font-bold mb-2">📊 Support Balance</div>
+                    <div class="text-sm space-y-1">
+                        <div>Emotional: ████████░░ 80%</div>
+                        <div>Practical: ██████░░░░ 60%</div>
+                        <div>Social: ███████░░░ 70%</div>
+                        <div>Info: █████░░░░░ 50%</div>
+                    </div>
+                </div>
+                
+                <div class="p-4 border border-gray-600 bg-gray-50">
+                    <div class="font-bold mb-2">🎯 This Week's Goal</div>
+                    <div class="text-sm">Have 3 meaningful conversations with close friends</div>
+                    <div class="mt-2 text-sm">Progress: ██░░░░░░░░ 2/3</div>
+                </div>
+                
+                <div class="p-4 border border-gray-600 bg-gray-50">
+                    <div class="font-bold mb-2">⚠️ Attention Needed</div>
+                    <div class="py-1 border-l-4 border-gray-400 pl-2 my-1 text-sm">Low practical support - consider reaching out to helpful contacts</div>
+                    <div class="py-1 border-l-4 border-gray-400 pl-2 my-1 text-sm">Haven't connected with work colleagues lately</div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html> 

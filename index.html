@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>beamy</title>
+    <link href="./dist/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-100 leading-relaxed">
+    <div class="min-h-screen relative overflow-hidden">
+        <!-- Header -->
+        <header class="absolute top-0 left-0 right-0 z-20 bg-gray-800 bg-opacity-80 border-b-2 border-gray-600 p-4 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="text-2xl font-bold text-yellow-400">🌟 Social Galaxy</div>
+            <nav class="flex flex-wrap gap-3 justify-center text-sm">
+                <div class="px-3 py-2 border border-gray-500 bg-gray-700 text-gray-200">Galaxy View</div>
+                <div class="px-3 py-2 border border-gray-500 bg-gray-600 text-gray-300">Add Contact</div>
+                <div class="px-3 py-2 border border-gray-500 bg-gray-600 text-gray-300">Systems</div>
+                <div class="px-3 py-2 border border-gray-500 bg-gray-600 text-gray-300">Settings</div>
+            </nav>
+        </header>
+
+        <!-- Galaxy Viewport -->
+        <main class="relative w-full h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 overflow-hidden">
+            <!-- Twinkling Background Stars -->
+            <div class="absolute inset-0">
+                <!-- Small twinkling stars -->
+                <div class="bg-star w-1 h-1 top-10 left-20"></div>
+                <div class="bg-star-slow w-0.5 h-0.5 top-32 right-40"></div>
+                <div class="bg-star-fast w-1 h-1 bottom-40 left-60"></div>
+                <div class="bg-star-delayed w-0.5 h-0.5 top-60 right-20"></div>
+                <div class="bg-star w-1 h-1 bottom-20 right-80"></div>
+                <div class="bg-star-slow w-0.5 h-0.5 top-80 left-40"></div>
+                <div class="bg-star-fast w-1 h-1 top-24 left-80"></div>
+                <div class="bg-star w-0.5 h-0.5 bottom-60 right-60"></div>
+                <div class="bg-star-delayed w-1 h-1 top-40 right-100"></div>
+                <div class="bg-star-slow w-0.5 h-0.5 top-16 left-32"></div>
+                <div class="bg-star w-1 h-1 bottom-32 left-24"></div>
+                <div class="bg-star-fast w-0.5 h-0.5 top-72 right-32"></div>
+                <div class="bg-star-delayed w-1 h-1 bottom-16 right-16"></div>
+                <div class="bg-star w-0.5 h-0.5 top-48 left-72"></div>
+                <div class="bg-star-slow w-1 h-1 bottom-72 right-72"></div>
+                <div class="bg-star-fast w-0.5 h-0.5 top-20 right-60"></div>
+                <div class="bg-star w-1 h-1 bottom-48 left-48"></div>
+                <div class="bg-star-delayed w-0.5 h-0.5 top-64 left-16"></div>
+                <div class="bg-star-slow w-1 h-1 bottom-24 right-24"></div>
+                <div class="bg-star w-0.5 h-0.5 top-36 right-36"></div>
+                <!-- More scattered stars -->
+                <div class="bg-star-fast w-0.5 h-0.5 top-52 left-88"></div>
+                <div class="bg-star w-1 h-1 bottom-52 right-88"></div>
+                <div class="bg-star-delayed w-0.5 h-0.5 top-28 left-64"></div>
+                <div class="bg-star-slow w-1 h-1 bottom-28 right-64"></div>
+                <div class="bg-star w-0.5 h-0.5 top-76 left-28"></div>
+                <div class="bg-star-fast w-1 h-1 bottom-76 right-28"></div>
+            </div>
+
+            <!-- Galaxy Center - You -->
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div class="w-8 h-8 bg-yellow-400 central-star flex items-center justify-center text-gray-900 font-bold text-xs text-yellow-400">
+                    YOU
+                </div>
+            </div>
+
+            <!-- Family Constellation (Top Left) -->
+            <div class="absolute top-32 left-32">
+                <div class="text-yellow-300 text-sm font-bold mb-4 text-center">Family Constellation</div>
+                <div class="relative">
+                    <!-- Family stars with realistic glow -->
+                    <div class="w-6 h-6 bg-red-400 contact-star absolute top-0 left-0 text-red-400"></div>
+                    <div class="w-5 h-5 bg-red-300 contact-star absolute top-8 left-6 text-red-300"></div>
+                    <div class="w-4 h-4 bg-pink-400 contact-star absolute top-4 left-12 text-pink-400"></div>
+                    <div class="w-3 h-3 bg-red-500 contact-star absolute top-12 left-2 text-red-500"></div>
+                    <!-- Subtle nebula effect -->
+                    <div class="absolute -inset-6 bg-red-500 opacity-5 rounded-full blur-2xl nebula-effect"></div>
+                </div>
+            </div>
+
+            <!-- Work System (Top Right) -->
+            <div class="absolute top-40 right-40">
+                <div class="text-blue-300 text-sm font-bold mb-4 text-center">Corporate System</div>
+                <div class="relative">
+                    <!-- Work stars with realistic glow -->
+                    <div class="w-5 h-5 bg-blue-400 contact-star absolute top-0 left-0 text-blue-400"></div>
+                    <div class="w-4 h-4 bg-cyan-400 contact-star absolute top-6 left-8 text-cyan-400"></div>
+                    <div class="w-3 h-3 bg-blue-300 contact-star absolute top-2 left-12 text-blue-300"></div>
+                    <div class="w-4 h-4 bg-indigo-400 contact-star absolute top-10 left-4 text-indigo-400"></div>
+                    <!-- Subtle nebula effect -->
+                    <div class="absolute -inset-6 bg-blue-500 opacity-5 rounded-full blur-2xl nebula-effect"></div>
+                </div>
+            </div>
+
+            <!-- Friends Nebula (Bottom Center) -->
+            <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2">
+                <div class="text-green-300 text-sm font-bold mb-4 text-center">Social Nebula</div>
+                <div class="relative">
+                    <!-- Friend stars with realistic glow -->
+                    <div class="w-5 h-5 bg-green-400 contact-star absolute top-0 left-0 text-green-400"></div>
+                    <div class="w-6 h-6 bg-emerald-400 contact-star absolute top-4 left-8 text-emerald-400"></div>
+                    <div class="w-4 h-4 bg-lime-400 contact-star absolute top-8 left-2 text-lime-400"></div>
+                    <div class="w-5 h-5 bg-teal-400 contact-star absolute top-2 left-16 text-teal-400"></div>
+                    <div class="w-3 h-3 bg-green-300 contact-star absolute top-12 left-12 text-green-300"></div>
+                    <!-- Larger nebula effect for social group -->
+                    <div class="absolute -inset-8 bg-green-500 opacity-8 rounded-full blur-3xl nebula-effect"></div>
+                </div>
+            </div>
+
+            <!-- Mentors/Advisors (Left Side) -->
+            <div class="absolute top-1/2 left-20 transform -translate-y-1/2">
+                <div class="text-purple-300 text-sm font-bold mb-4 text-center">Wisdom Stars</div>
+                <div class="relative">
+                    <div class="w-5 h-5 bg-purple-400 contact-star absolute top-0 left-0 text-purple-400"></div>
+                    <div class="w-4 h-4 bg-violet-400 contact-star absolute top-8 left-4 text-violet-400"></div>
+                    <!-- Subtle nebula effect -->
+                    <div class="absolute -inset-4 bg-purple-500 opacity-5 rounded-full blur-xl nebula-effect"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Control Panel (Bottom Left) -->
+        <div class="absolute bottom-4 left-4 z-20 bg-gray-800 bg-opacity-90 border-2 border-gray-600 p-4 rounded-lg max-w-xs backdrop-blur-sm">
+            <h3 class="text-lg font-bold mb-3 text-yellow-400">Galaxy Controls</h3>
+            <div class="space-y-2 text-sm">
+                <button class="wireframe-button w-full text-left bg-gray-700 border-gray-500 text-gray-200 hover:bg-gray-600">+ Add New Star</button>
+                <button class="wireframe-button w-full text-left bg-gray-700 border-gray-500 text-gray-200 hover:bg-gray-600">🌌 Create System</button>
+                <button class="wireframe-button w-full text-left bg-gray-700 border-gray-500 text-gray-200 hover:bg-gray-600">🎯 Center Galaxy</button>
+                <div class="pt-2 border-t border-gray-600">
+                    <div class="text-xs text-gray-400 mb-1">Navigation:</div>
+                    <div class="text-xs text-gray-300">• Drag to explore</div>
+                    <div class="text-xs text-gray-300">• Scroll to zoom</div>
+                    <div class="text-xs text-gray-300">• Hover for details</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Galaxy Stats (Top Right) -->
+        <div class="absolute top-20 right-4 z-20 bg-gray-800 bg-opacity-90 border-2 border-gray-600 p-4 rounded-lg backdrop-blur-sm">
+            <h3 class="text-lg font-bold mb-3 text-yellow-400">Galaxy Scope</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Total Stars:</span>
+                    <span class="text-white font-bold">18</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Systems:</span>
+                    <span class="text-white font-bold">4</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Bright Stars:</span>
+                    <span class="text-white font-bold">12</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Dim Stars:</span>
+                    <span class="text-white font-bold">6</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Type Legend (Bottom Right) -->
+        <div class="absolute bottom-4 right-4 z-20 bg-gray-800 bg-opacity-90 border-2 border-gray-600 p-4 rounded-lg backdrop-blur-sm">
+            <h3 class="text-lg font-bold mb-3 text-yellow-400">Support Types</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-red-400 star-small text-red-400"></div>
+                    <span class="text-gray-300">Emotional</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-blue-400 star-small text-blue-400"></div>
+                    <span class="text-gray-300">Practical</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-green-400 star-small text-green-400"></div>
+                    <span class="text-gray-300">Social</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-purple-400 star-small text-purple-400"></div>
+                    <span class="text-gray-300">Informational</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hover Info Panel (Hidden by default) -->
+        <div class="absolute top-1/2 left-4 transform -translate-y-1/2 z-20 bg-gray-800 bg-opacity-95 border-2 border-yellow-500 p-3 rounded-lg max-w-xs opacity-50 backdrop-blur-sm">
+            <div class="text-yellow-400 font-bold text-sm mb-1">[Hover Info]</div>
+            <div class="text-white text-sm">Sarah Martinez</div>
+            <div class="text-gray-300 text-xs">Family • Sister</div>
+            <div class="text-gray-300 text-xs mt-1">Strength: ⭐⭐⭐⭐⭐</div>
+            <div class="text-gray-300 text-xs">Last contact: 2 days ago</div>
+            <div class="flex gap-1 mt-2">
+                <div class="w-2 h-2 bg-red-400 star-small text-red-400"></div>
+                <div class="w-2 h-2 bg-green-400 star-small text-green-400"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Instructions -->
+        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 text-center text-gray-400 text-sm p-2">
+            Drag to explore • Pinch to zoom • Tap menu for options
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom wireframe styles */
+@layer base {
+  body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+  }
+}
+
+@layer components {
+  .wireframe-card {
+    @apply bg-white border-2 border-black p-5;
+  }
+  
+  .wireframe-button {
+    @apply px-5 py-2 bg-gray-300 border-2 border-black font-bold cursor-pointer;
+  }
+  
+  .wireframe-input {
+    @apply p-2 border border-black bg-gray-50;
+  }
+  
+  .wireframe-nav-item {
+    @apply px-4 py-2 border border-black bg-gray-300;
+  }
+  
+  .section-title {
+    @apply text-lg font-bold mb-4 border-b border-black pb-2;
+  }
+  
+  .stat-card {
+    @apply text-center p-2 border border-gray-600 bg-gray-100 flex-1;
+  }
+  
+  .insight-card {
+    @apply p-4 border border-gray-600 bg-gray-50;
+  }
+  
+  .recommendation {
+    @apply py-1 border-l-4 border-gray-400 pl-2 my-1 text-sm;
+  }
+  
+  .interaction-item {
+    @apply flex justify-between items-center py-2 border-b border-dotted border-gray-400;
+  }
+
+  /* Realistic Star Effects */
+  .star {
+    @apply rounded-full relative;
+    box-shadow: 
+      0 0 6px currentColor,
+      0 0 12px currentColor,
+      0 0 18px currentColor;
+  }
+
+  .star-large {
+    @apply star;
+    box-shadow: 
+      0 0 8px currentColor,
+      0 0 16px currentColor,
+      0 0 24px currentColor,
+      0 0 32px currentColor;
+  }
+
+  .star-medium {
+    @apply star;
+    box-shadow: 
+      0 0 6px currentColor,
+      0 0 12px currentColor,
+      0 0 18px currentColor;
+  }
+
+  .star-small {
+    @apply star;
+    box-shadow: 
+      0 0 4px currentColor,
+      0 0 8px currentColor;
+  }
+
+  /* Background star twinkling */
+  .bg-star {
+    @apply absolute bg-white rounded-full;
+    animation: twinkle 3s infinite ease-in-out;
+  }
+
+  .bg-star-slow {
+    @apply bg-star;
+    animation: twinkle 4s infinite ease-in-out;
+  }
+
+  .bg-star-fast {
+    @apply bg-star;
+    animation: twinkle 2s infinite ease-in-out;
+  }
+
+  .bg-star-delayed {
+    @apply bg-star;
+    animation: twinkle 3.5s infinite ease-in-out 1s;
+  }
+
+  /* Contact star effects */
+  .contact-star {
+    @apply rounded-full relative transition-all duration-300;
+    box-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor,
+      inset 0 0 10px rgba(255, 255, 255, 0.2);
+    animation: gentle-pulse 4s infinite ease-in-out;
+  }
+
+  .contact-star:hover {
+    transform: scale(1.1);
+    box-shadow: 
+      0 0 15px currentColor,
+      0 0 30px currentColor,
+      0 0 45px currentColor,
+      inset 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Central star (YOU) special effects */
+  .central-star {
+    @apply contact-star;
+    box-shadow: 
+      0 0 15px currentColor,
+      0 0 30px currentColor,
+      0 0 45px currentColor,
+      0 0 60px currentColor,
+      inset 0 0 15px rgba(255, 255, 255, 0.3);
+    animation: central-pulse 3s infinite ease-in-out;
+  }
+}
+
+@layer utilities {
+  /* Keyframe animations */
+  @keyframes twinkle {
+    0%, 100% { 
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  @keyframes gentle-pulse {
+    0%, 100% { 
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes central-pulse {
+    0%, 100% { 
+      opacity: 0.95;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 1;
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes nebula-drift {
+    0%, 100% { 
+      opacity: 0.1;
+      transform: scale(1) rotate(0deg);
+    }
+    50% { 
+      opacity: 0.2;
+      transform: scale(1.1) rotate(180deg);
+    }
+  }
+
+  /* Nebula effects */
+  .nebula-effect {
+    animation: nebula-drift 8s infinite ease-in-out;
+  }
+} 
