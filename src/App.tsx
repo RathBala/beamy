@@ -1,4 +1,3 @@
-import React from 'react'
 import GalaxyView from './components/GalaxyView'
 
 function App() {
