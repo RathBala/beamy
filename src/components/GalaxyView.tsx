@@ -108,7 +108,7 @@ const GalaxyView: React.FC = () => {
       
       <div 
         ref={containerRef}
-        className="relative w-full h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 overflow-hidden cursor-grab active:cursor-grabbing"
+        className="relative w-full h-screen bg-gradient-to-br from-black via-gray-950 to-black overflow-hidden cursor-grab active:cursor-grabbing"
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
         style={{ cursor: dragState.isDragging ? 'grabbing' : 'grab' }}
