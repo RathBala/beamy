@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import type { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
 import GalaxyViewport from './GalaxyViewport'
-import ControlPanel from './ControlPanel'
 import GalaxyStats from './GalaxyStats'
 import SupportLegend from './SupportLegend'
 import HoverInfo from './HoverInfo'
