@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { collection, onSnapshot, getDocs, query, DocumentData } from 'firebase/firestore'
+import { collection, onSnapshot, getDocs, DocumentData } from 'firebase/firestore'
 import { db } from '../firebase'
 
 export interface Contact {
@@ -31,25 +31,26 @@ export const useSystems = (uid?: string | null) => {
       return
     }
 
-    // Reference to the user's systems collection
+    // References to the collections
     const systemsRef = collection(db, 'users', uid, 'systems')
-    const q = query(systemsRef)
+    const rootContactsRef = collection(db, 'users', uid, 'contacts')
 
-    // Listen for realtime changes to systems
-    const unsubscribe = onSnapshot(q, async (snapshot) => {
+    // Helper that (re)assembles all systems + root-level contacts
+    const buildSystemsSnapshot = async () => {
       const sysWithContacts: SystemData[] = []
 
-      // Fetch contacts for each system in parallel
+      // 1️⃣ Fetch systems and their contacts
+      const systemsSnap = await getDocs(systemsRef)
+
       await Promise.all(
-        snapshot.docs.map(async (docSnap) => {
+        systemsSnap.docs.map(async (docSnap: any) => {
           const systemId = docSnap.id
           const systemData = docSnap.data() as DocumentData
 
-          // Fetch contacts inside this system
           const contactsCol = collection(db, 'users', uid, 'systems', systemId, 'contacts')
           const contactsSnap = await getDocs(contactsCol)
 
-          const contacts: Contact[] = contactsSnap.docs.map((c) => ({ id: c.id, ...(c.data() as DocumentData) })) as Contact[]
+          const contacts: Contact[] = contactsSnap.docs.map((c: any) => ({ id: c.id, ...(c.data() as DocumentData) })) as Contact[]
 
           sysWithContacts.push({
             id: systemId,
@@ -60,10 +61,32 @@ export const useSystems = (uid?: string | null) => {
         })
       )
 
-      setSystems(sysWithContacts)
-    })
+      // 2️⃣ Fetch contacts that don't belong to any social system
+      const rootContactsSnap = await getDocs(rootContactsRef)
+      if (!rootContactsSnap.empty) {
+        const rootContacts: Contact[] = rootContactsSnap.docs.map((c: any) => ({ id: c.id, ...(c.data() as DocumentData) })) as Contact[]
 
-    return () => unsubscribe()
+        sysWithContacts.push({
+          id: 'NO_SYSTEM',
+          name: '', // No label – these contacts will appear near "YOU"
+          contacts: rootContacts
+        })
+      }
+
+      setSystems(sysWithContacts)
+    }
+
+    // Listen for realtime changes in both collections. Whenever either changes we rebuild.
+    const unsubSystems = onSnapshot(systemsRef, buildSystemsSnapshot)
+    const unsubRoot = onSnapshot(rootContactsRef, buildSystemsSnapshot)
+
+    // Initial fetch
+    buildSystemsSnapshot()
+
+    return () => {
+      unsubSystems()
+      unsubRoot()
+    }
   }, [uid])
 
   return systems

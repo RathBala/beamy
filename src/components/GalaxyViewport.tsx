@@ -27,7 +27,12 @@ const GalaxyViewport = ({ pan, systems }: GalaxyViewportProps) => {
   ]
 
   // Helper to pick position for system index
-  const getPositionForIndex = (idx: number) => {
+  const getPositionForIndex = (sys: SystemData, idx: number) => {
+    // Contacts without a system should hover right around "YOU"
+    if (sys.id === 'NO_SYSTEM') {
+      return 'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
+    }
+
     if (idx < predefinedPositions.length) return predefinedPositions[idx]
     const randX = Math.floor(Math.random() * 80) + 10 // between 10 and 90
     const randY = Math.floor(Math.random() * 80) + 10
@@ -75,7 +80,7 @@ const GalaxyViewport = ({ pan, systems }: GalaxyViewportProps) => {
         {systems.map((sys, idx) => (
           <ContactConstellation
             key={sys.id}
-            position={getPositionForIndex(idx)}
+            position={getPositionForIndex(sys, idx)}
             title={sys.name}
             titleColor="text-yellow-300"
             stars={buildStars(sys.contacts)}

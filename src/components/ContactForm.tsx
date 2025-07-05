@@ -49,6 +49,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
     if (!user) {
       setErrorMessage('You need to be logged in to save a contact.')
       return
@@ -57,7 +58,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
     let systemId = selectedSystemId
 
     try {
-      // 1️⃣ Create a new system first if the user chose that option
+      // 1️⃣ If the user opted to create a brand-new social system first, do that now
       if (isCreatingNewSystem) {
         const sysRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
           name: newSystemName || 'Untitled System',
@@ -66,27 +67,27 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
         systemId = sysRef.id
       }
 
-      // 2️⃣ If no system was selected/created, automatically create or use a default system
-      if (!systemId) {
-        const defaultSystemRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
-          name: 'General',
+      if (systemId) {
+        // 2️⃣ A system *was* chosen or created – save the contact inside that system
+        await addDoc(collection(db, 'users', user.uid, 'systems', systemId, 'contacts'), {
+          name,
+          type,
+          closeness,
           createdAt: serverTimestamp()
         })
-        systemId = defaultSystemRef.id
+      } else {
+        // 3️⃣ No social system indicated → save the contact in a top-level collection
+        await addDoc(collection(db, 'users', user.uid, 'contacts'), {
+          name,
+          type,
+          closeness,
+          createdAt: serverTimestamp()
+        })
       }
-
-      // 3️⃣ Add contact inside that system
-      await addDoc(collection(db, 'users', user.uid, 'systems', systemId, 'contacts'), {
-        name,
-        type,
-        closeness,
-        createdAt: serverTimestamp()
-      })
 
       onClose()
     } catch (err) {
       console.error('Error saving contact', err)
-      // Show the error to the user so they know what went wrong
       if (err instanceof Error) {
         setErrorMessage(err.message)
       } else {
@@ -134,7 +135,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
         </div>
 
         <div>
-          <label className="block text-sm text-gray-300 mb-1">Social System *</label>
+          <label className="block text-sm text-gray-300 mb-1">Social System</label>
           <select
             value={selectedSystemId}
             onChange={(e) => setSelectedSystemId(e.target.value)}
@@ -150,10 +151,9 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
 
         {isCreatingNewSystem && (
           <div>
-            <label className="block text-sm text-gray-300 mb-1">New System Name *</label>
+            <label className="block text-sm text-gray-300 mb-1">New System Name</label>
             <input
               type="text"
-              required
               value={newSystemName}
               onChange={(e) => setNewSystemName(e.target.value)}
               className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"

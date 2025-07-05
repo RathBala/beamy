@@ -13,6 +13,15 @@ service cloud.firestore {
         match /contacts/{contactId} {
           allow read, write: if request.auth != null && request.auth.uid == uid;
         }
+
+        // --------------
+        // Root-level contacts (no social system)
+        // --------------
+      }
+
+      // Allow access to contacts stored directly under the user document
+      match /contacts/{contactId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
       }
     }
   }
