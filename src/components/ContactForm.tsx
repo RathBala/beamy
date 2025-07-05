@@ -60,8 +60,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
       if (isCreatingNewSystem) {
         const sysRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
           name: newSystemName || 'Untitled System',
-          createdAt: serverTimestamp(),
-          color: undefined // assign later if desired
+          createdAt: serverTimestamp()
         })
         systemId = sysRef.id
       }
@@ -70,8 +69,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
       if (!systemId) {
         const defaultSystemRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
           name: 'General',
-          createdAt: serverTimestamp(),
-          color: undefined
+          createdAt: serverTimestamp()
         })
         systemId = defaultSystemRef.id
       }
