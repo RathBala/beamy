@@ -1,5 +1,6 @@
 import TwinklingStars from './TwinklingStars'
 import ContactConstellation from './ContactConstellation'
+import { SystemData } from '../hooks/useSystems'
 
 interface Position {
   x: number
@@ -8,9 +9,48 @@ interface Position {
 
 interface GalaxyViewportProps {
   pan: Position
+  systems: SystemData[]
 }
 
-const GalaxyViewport = ({ pan }: GalaxyViewportProps) => {
+const GalaxyViewport = ({ pan, systems }: GalaxyViewportProps) => {
+
+  // Pre-baked positions for up to 8 systems; beyond that we fall back to random spots.
+  const predefinedPositions = [
+    'top-32 left-32',
+    'top-32 right-40',
+    'bottom-32 left-1/2 transform -translate-x-1/2',
+    'top-1/2 left-20 transform -translate-y-1/2',
+    'bottom-40 right-40',
+    'top-40 left-1/2 transform -translate-x-1/2',
+    'bottom-20 left-20',
+    'top-1/4 right-1/4'
+  ]
+
+  // Helper to pick position for system index
+  const getPositionForIndex = (idx: number) => {
+    if (idx < predefinedPositions.length) return predefinedPositions[idx]
+    const randX = Math.floor(Math.random() * 80) + 10 // between 10 and 90
+    const randY = Math.floor(Math.random() * 80) + 10
+    return `top-[${randY}vh] left-[${randX}vw]`
+  }
+
+  // Generate star objects for contacts
+  const buildStars = (contacts: any[]) => {
+    return contacts.map((c: any, i: number) => {
+      const sizes = ['w-3 h-3', 'w-4 h-4', 'w-5 h-5', 'w-6 h-6']
+      const size = sizes[i % sizes.length]
+      // Use system colour or generic yellow
+      const color = c.colorClass || 'bg-yellow-400 text-yellow-400'
+      const top = Math.floor(Math.random() * 120)
+      const left = Math.floor(Math.random() * 120)
+      return {
+        size,
+        color,
+        position: `top-[${top}px] left-[${left}px]`
+      }
+    })
+  }
+
   return (
     <main className="relative w-full h-full overflow-hidden">
       {/* Container that moves with drag */}
@@ -25,73 +65,24 @@ const GalaxyViewport = ({ pan }: GalaxyViewportProps) => {
         <TwinklingStars />
 
         {/* Galaxy Center - You */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="w-8 h-8 bg-yellow-400 central-star flex items-center justify-center text-gray-900 font-bold text-xs text-yellow-400">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+          <div className="w-8 h-8 bg-yellow-400 central-star flex items-center justify-center text-gray-900 font-bold text-xs text-yellow-900 rounded-full shadow-md">
             YOU
           </div>
         </div>
 
-        {/* Family Constellation (Top Left) */}
-        <ContactConstellation
-          position="top-32 left-32"
-          title="Family Constellation"
-          titleColor="text-yellow-300"
-          stars={[
-            { size: 'w-6 h-6', color: 'bg-red-400 text-red-400', position: 'top-0 left-0' },
-            { size: 'w-5 h-5', color: 'bg-red-300 text-red-300', position: 'top-8 left-6' },
-            { size: 'w-4 h-4', color: 'bg-pink-400 text-pink-400', position: 'top-4 left-12' },
-            { size: 'w-3 h-3', color: 'bg-red-500 text-red-500', position: 'top-12 left-2' }
-          ]}
-          nebulaColor="bg-red-500"
-          nebulaSize="-inset-6"
-        />
-
-        {/* Work System (Top Right) */}
-        <ContactConstellation
-          position="top-40 right-40"
-          title="Corporate System"
-          titleColor="text-blue-300"
-          stars={[
-            { size: 'w-5 h-5', color: 'bg-blue-400 text-blue-400', position: 'top-0 left-0' },
-            { size: 'w-4 h-4', color: 'bg-cyan-400 text-cyan-400', position: 'top-6 left-8' },
-            { size: 'w-3 h-3', color: 'bg-blue-300 text-blue-300', position: 'top-2 left-12' },
-            { size: 'w-4 h-4', color: 'bg-indigo-400 text-indigo-400', position: 'top-10 left-4' }
-          ]}
-          nebulaColor="bg-blue-500"
-          nebulaSize="-inset-6"
-        />
-
-        {/* Friends Nebula (Bottom Center) */}
-        <ContactConstellation
-          position="bottom-32 left-1/2 transform -translate-x-1/2"
-          title="Social Nebula"
-          titleColor="text-green-300"
-          stars={[
-            { size: 'w-5 h-5', color: 'bg-green-400 text-green-400', position: 'top-0 left-0' },
-            { size: 'w-6 h-6', color: 'bg-emerald-400 text-emerald-400', position: 'top-4 left-8' },
-            { size: 'w-4 h-4', color: 'bg-lime-400 text-lime-400', position: 'top-8 left-2' },
-            { size: 'w-5 h-5', color: 'bg-teal-400 text-teal-400', position: 'top-2 left-16' },
-            { size: 'w-3 h-3', color: 'bg-green-300 text-green-300', position: 'top-12 left-12' }
-          ]}
-          nebulaColor="bg-green-500"
-          nebulaSize="-inset-8"
-          nebulaOpacity="opacity-8"
-          nebulaBlur="blur-3xl"
-        />
-
-        {/* Mentors/Advisors (Left Side) */}
-        <ContactConstellation
-          position="top-1/2 left-20 transform -translate-y-1/2"
-          title="Wisdom Stars"
-          titleColor="text-purple-300"
-          stars={[
-            { size: 'w-5 h-5', color: 'bg-purple-400 text-purple-400', position: 'top-0 left-0' },
-            { size: 'w-4 h-4', color: 'bg-violet-400 text-violet-400', position: 'top-8 left-4' }
-          ]}
-          nebulaColor="bg-purple-500"
-          nebulaSize="-inset-4"
-          nebulaBlur="blur-xl"
-        />
+        {/* Dynamically render systems & contacts */}
+        {systems.map((sys, idx) => (
+          <ContactConstellation
+            key={sys.id}
+            position={getPositionForIndex(idx)}
+            title={sys.name}
+            titleColor="text-yellow-300"
+            stars={buildStars(sys.contacts)}
+            nebulaColor="bg-yellow-600"
+            nebulaSize="-inset-6"
+          />
+        ))}
       </div>
     </main>
   )

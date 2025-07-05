@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 // Firebase configuration for Beamy project
 const firebaseConfig = {
@@ -15,6 +16,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig)
+
+// Initialize Firestore database
+export const db = getFirestore(firebaseApp)
 
 // Export Firebase Auth instance for use across the app
 export const auth = getAuth(firebaseApp) 

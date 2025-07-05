@@ -1,0 +1,208 @@
+import { useState } from 'react'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '../firebase'
+import { SystemData } from '../hooks/useSystems'
+import { useAuth } from '../contexts/AuthContext'
+
+interface ContactFormProps {
+  systems: SystemData[]
+  onClose: () => void
+}
+
+const ContactForm = ({ systems, onClose }: ContactFormProps) => {
+  const { user } = useAuth()
+  const [name, setName] = useState('')
+  const [type, setType] = useState('')
+  const [closeness, setCloseness] = useState(50) // 0-100 scale
+
+  const [selectedSystemId, setSelectedSystemId] = useState<string>('')
+  const [newSystemName, setNewSystemName] = useState('')
+
+  const isCreatingNewSystem = selectedSystemId === 'NEW_SYSTEM'
+
+  // Contact types
+  const contactTypes = [
+    'Partner', 'Spouse', 'Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter',
+    'Grandfather', 'Grandmother', 'Uncle', 'Aunt', 'Cousin', 'Friend', 'Best Friend',
+    'Colleague', 'Boss', 'Manager', 'Mentor', 'Teacher', 'Student', 'Neighbor',
+    'Acquaintance', 'Client', 'Doctor', 'Therapist', 'Other'
+  ]
+
+  // Closeness labels
+  const getClosenessLabel = (value: number) => {
+    if (value < 25) return 'Not Close'
+    if (value < 50) return 'Somewhat Close'
+    if (value < 75) return 'Close'
+    return 'Very Close'
+  }
+
+  // Star size based on closeness
+  const getStarSize = (value: number) => {
+    const minSize = 16
+    const maxSize = 32
+    return minSize + (value / 100) * (maxSize - minSize)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!user) return
+
+    let systemId = selectedSystemId
+
+    try {
+      // 1️⃣ Create system first if needed
+      if (isCreatingNewSystem) {
+        const sysRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
+          name: newSystemName || 'Untitled System',
+          createdAt: serverTimestamp(),
+          color: undefined // assign later if desired
+        })
+        systemId = sysRef.id
+      }
+
+      if (!systemId) {
+        alert('Please choose a social system (or create a new one)')
+        return
+      }
+
+      // 2️⃣ Add contact inside that system
+      await addDoc(collection(db, 'users', user.uid, 'systems', systemId, 'contacts'), {
+        name,
+        type,
+        closeness,
+        createdAt: serverTimestamp()
+      })
+
+      onClose()
+    } catch (err) {
+      console.error('Error saving contact', err)
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-40 bg-black bg-opacity-60 flex items-center justify-center backdrop-blur-sm">
+      <form onSubmit={handleSubmit} className="bg-gray-800 w-96 p-6 rounded-lg border border-gray-700 space-y-4">
+        <h2 className="text-xl font-semibold text-white mb-2">Add New Contact</h2>
+
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Name *</label>
+          <input
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Type *</label>
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            required
+            className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          >
+            <option value="" disabled>Select relationship type</option>
+            {contactTypes.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Social System *</label>
+          <select
+            value={selectedSystemId}
+            onChange={(e) => setSelectedSystemId(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            required
+          >
+            <option value="" disabled>Select an option</option>
+            {systems.map((sys) => (
+              <option key={sys.id} value={sys.id}>{sys.name}</option>
+            ))}
+            <option value="NEW_SYSTEM">➕ Create new system...</option>
+          </select>
+        </div>
+
+        {isCreatingNewSystem && (
+          <div>
+            <label className="block text-sm text-gray-300 mb-1">New System Name *</label>
+            <input
+              type="text"
+              required
+              value={newSystemName}
+              onChange={(e) => setNewSystemName(e.target.value)}
+              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            />
+          </div>
+        )}
+
+        <div>
+          <label className="block text-sm text-gray-300 mb-2">Closeness</label>
+          <div className="flex items-center space-x-4">
+            {/* Draggable star */}
+            <div className="relative flex-1 h-12 bg-gray-900 rounded-lg border border-gray-700 overflow-hidden">
+              <div 
+                className="absolute top-1/2 transform -translate-y-1/2 cursor-grab active:cursor-grabbing"
+                style={{ 
+                  left: `${closeness}%`,
+                  transform: `translateX(-50%) translateY(-50%)`
+                }}
+                onMouseDown={(e) => {
+                  e.preventDefault()
+                  const rect = e.currentTarget.parentElement!.getBoundingClientRect()
+                  const handleMouseMove = (moveEvent: MouseEvent) => {
+                    const x = moveEvent.clientX - rect.left
+                    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100))
+                    setCloseness(Math.round(percentage))
+                  }
+                  const handleMouseUp = () => {
+                    document.removeEventListener('mousemove', handleMouseMove)
+                    document.removeEventListener('mouseup', handleMouseUp)
+                  }
+                  document.addEventListener('mousemove', handleMouseMove)
+                  document.addEventListener('mouseup', handleMouseUp)
+                }}
+              >
+                <div 
+                  className="bg-yellow-400 rounded-full shadow-lg flex items-center justify-center text-yellow-900 font-bold text-xs transition-all duration-200"
+                  style={{ 
+                    width: `${getStarSize(closeness)}px`,
+                    height: `${getStarSize(closeness)}px`,
+                    boxShadow: `0 0 ${closeness / 5}px rgba(251, 191, 36, 0.6)`
+                  }}
+                >
+                  <div 
+                    className="w-full h-full rounded-full bg-yellow-400"
+                    style={{
+                      boxShadow: `
+                        0 0 ${closeness / 3}px rgba(251, 191, 36, 0.8),
+                        0 0 ${closeness / 2}px rgba(251, 191, 36, 0.6),
+                        0 0 ${closeness}px rgba(251, 191, 36, 0.4),
+                        inset 0 0 ${closeness / 4}px rgba(255, 255, 255, 0.3)
+                      `
+                    }}
+                  />
+                </div>
+              </div>
+              {/* Track gradient */}
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-700 via-yellow-600 to-yellow-400 opacity-30"></div>
+            </div>
+            <div className="text-sm text-gray-300 min-w-[100px]">
+              {getClosenessLabel(closeness)}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-3 pt-3">
+          <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-md text-gray-200">Cancel</button>
+          <button type="submit" className="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 rounded-md text-gray-900 font-semibold">Save</button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+export default ContactForm; 

@@ -1,3 +1,5 @@
+const { colors, radii, spacing, shadow } = require('./src/theme/tokens')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -6,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors,
+      spacing,
+      borderRadius: radii,
+      boxShadow: shadow,
       fontFamily: {
         'wireframe': ['Comic Sans MS', 'cursive', 'sans-serif']
       },

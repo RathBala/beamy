@@ -4,6 +4,9 @@ import GalaxyViewport from './GalaxyViewport'
 import GalaxyStats from './GalaxyStats'
 import SupportLegend from './SupportLegend'
 import HoverInfo from './HoverInfo'
+import ContactForm from './ContactForm'
+import { useAuth } from '../contexts/AuthContext'
+import { useSystems } from '../hooks/useSystems'
 
 interface Position {
   x: number
@@ -20,6 +23,7 @@ interface UIState {
   showStats: boolean
   showControls: boolean
   showLegend: boolean
+  showContactForm: boolean
 }
 
 const GalaxyView = () => {
@@ -33,9 +37,13 @@ const GalaxyView = () => {
   const [uiState, setUiState] = useState<UIState>({
     showStats: false,
     showControls: false,
-    showLegend: false
+    showLegend: false,
+    showContactForm: false
   })
   
+  const { user } = useAuth()
+  const systems = useSystems(user?.uid)
+
   const containerRef = useRef<HTMLDivElement>(null)
 
   const togglePanel = useCallback((panel: keyof UIState) => {
@@ -145,7 +153,7 @@ const GalaxyView = () => {
         onTouchStart={handleTouchStart}
         style={{ cursor: dragState.isDragging ? 'grabbing' : 'grab' }}
       >
-        <GalaxyViewport pan={pan} />
+        <GalaxyViewport pan={pan} systems={systems} />
       </div>
 
       {/* FAB System */}
@@ -153,7 +161,9 @@ const GalaxyView = () => {
         <div className="flex flex-col items-end gap-3">
           {uiState.showControls && (
             <div className="flex flex-col gap-2 mb-2">
-              <button className="px-4 py-2 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm text-sm text-gray-300 whitespace-nowrap">
+              <button 
+                onClick={() => togglePanel('showContactForm')}
+                className="px-4 py-2 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm text-sm text-gray-300 whitespace-nowrap">
                 ➕ Add New Contact
               </button>
               <button 
@@ -179,6 +189,7 @@ const GalaxyView = () => {
       {/* Conditionally render other panels */}
       {uiState.showStats && <GalaxyStats onClose={() => togglePanel('showStats')} />}
       {uiState.showLegend && <SupportLegend onClose={() => togglePanel('showLegend')} />}
+      {uiState.showContactForm && (<ContactForm systems={systems} onClose={() => togglePanel('showContactForm')} />)}
       
       {/* HoverInfo - only shows when hovering over contacts */}
       <HoverInfo />
