@@ -1,6 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import type { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
-import Header from './Header'
 import GalaxyViewport from './GalaxyViewport'
 import ControlPanel from './ControlPanel'
 import GalaxyStats from './GalaxyStats'
@@ -22,7 +21,6 @@ interface UIState {
   showStats: boolean
   showControls: boolean
   showLegend: boolean
-  showMenu: boolean
 }
 
 const GalaxyView = () => {
@@ -36,8 +34,7 @@ const GalaxyView = () => {
   const [uiState, setUiState] = useState<UIState>({
     showStats: false,
     showControls: false,
-    showLegend: false,
-    showMenu: false
+    showLegend: false
   })
   
   const containerRef = useRef<HTMLDivElement>(null)
@@ -126,18 +123,6 @@ const GalaxyView = () => {
 
   return (
     <>
-      {/* Hamburger Menu Button */}
-      <button
-        onClick={() => togglePanel('showMenu')}
-        className="fixed top-4 left-4 z-30 p-3 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm"
-      >
-        <div className="w-6 h-6 flex flex-col justify-center items-center">
-          <span className="block w-5 h-0.5 bg-gray-300 mb-1"></span>
-          <span className="block w-5 h-0.5 bg-gray-300 mb-1"></span>
-          <span className="block w-5 h-0.5 bg-gray-300"></span>
-        </div>
-      </button>
-
       {/* Stats Toggle Button */}
       <button
         onClick={() => togglePanel('showStats')}
@@ -154,9 +139,6 @@ const GalaxyView = () => {
         ?
       </button>
 
-      {/* Conditionally render Header/Menu */}
-      {uiState.showMenu && <Header onClose={() => togglePanel('showMenu')} />}
-      
       <div 
         ref={containerRef}
         className="relative w-full h-screen bg-gradient-to-br from-black via-gray-950 to-black overflow-hidden cursor-grab active:cursor-grabbing"
