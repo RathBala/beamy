@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { collection, onSnapshot, getDocs, DocumentData } from 'firebase/firestore'
+import { collection, onSnapshot, getDocs, DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
 import { db } from '../firebase'
 
 export interface Contact {
@@ -43,14 +43,14 @@ export const useSystems = (uid?: string | null) => {
       const systemsSnap = await getDocs(systemsRef)
 
       await Promise.all(
-        systemsSnap.docs.map(async (docSnap: any) => {
+        systemsSnap.docs.map(async (docSnap: QueryDocumentSnapshot<DocumentData>) => {
           const systemId = docSnap.id
           const systemData = docSnap.data() as DocumentData
 
           const contactsCol = collection(db, 'users', uid, 'systems', systemId, 'contacts')
           const contactsSnap = await getDocs(contactsCol)
 
-          const contacts: Contact[] = contactsSnap.docs.map((c: any) => ({ id: c.id, ...(c.data() as DocumentData) })) as Contact[]
+          const contacts: Contact[] = contactsSnap.docs.map((c: QueryDocumentSnapshot<DocumentData>) => ({ id: c.id, ...(c.data() as DocumentData) })) as Contact[]
 
           sysWithContacts.push({
             id: systemId,
@@ -64,7 +64,7 @@ export const useSystems = (uid?: string | null) => {
       // 2️⃣ Fetch contacts that don't belong to any social system
       const rootContactsSnap = await getDocs(rootContactsRef)
       if (!rootContactsSnap.empty) {
-        const rootContacts: Contact[] = rootContactsSnap.docs.map((c: any) => ({ id: c.id, ...(c.data() as DocumentData) })) as Contact[]
+        const rootContacts: Contact[] = rootContactsSnap.docs.map((c: QueryDocumentSnapshot<DocumentData>) => ({ id: c.id, ...(c.data() as DocumentData) })) as Contact[]
 
         sysWithContacts.push({
           id: 'NO_SYSTEM',

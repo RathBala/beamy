@@ -1,5 +1,7 @@
 import TwinklingStars from './TwinklingStars'
 import ContactConstellation from './ContactConstellation'
+import type { Star } from './ContactConstellation'
+import type { Contact } from '../hooks/useSystems'
 import { SystemData } from '../hooks/useSystems'
 
 interface Position {
@@ -40,8 +42,8 @@ const GalaxyViewport = ({ pan, systems }: GalaxyViewportProps) => {
   }
 
   // Generate star objects for contacts
-  const buildStars = (contacts: any[]) => {
-    return contacts.map((c: any, i: number) => {
+  const buildStars = (contacts: Contact[]): Star[] => {
+    return contacts.map((c: Contact, i: number): Star => {
       const sizes = ['w-3 h-3', 'w-4 h-4', 'w-5 h-5', 'w-6 h-6']
       const size = sizes[i % sizes.length]
       // Use system colour or generic yellow
