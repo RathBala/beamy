@@ -66,13 +66,15 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
         systemId = sysRef.id
       }
 
-      // 2️⃣ If no system was selected/created, automatically create or use a default system
+      // 2️⃣ If no system was selected/created, create or use a special "Central" system
       if (!systemId) {
-        const defaultSystemRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
-          name: 'General',
+        // Look for existing Central system first
+        const centralSystemRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
+          name: 'Central',
+          isCenter: true,
           createdAt: serverTimestamp()
         })
-        systemId = defaultSystemRef.id
+        systemId = centralSystemRef.id
       }
 
       // 3️⃣ Add contact inside that system
@@ -134,13 +136,13 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
         </div>
 
         <div>
-          <label className="block text-sm text-gray-300 mb-1">Social System *</label>
+          <label className="block text-sm text-gray-300 mb-1">Social System</label>
           <select
             value={selectedSystemId}
             onChange={(e) => setSelectedSystemId(e.target.value)}
             className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
           >
-            <option value="" disabled>Select an option</option>
+            <option value="">None - Place near center</option>
             {systems.map((sys) => (
               <option key={sys.id} value={sys.id}>{sys.name}</option>
             ))}
@@ -150,13 +152,13 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
 
         {isCreatingNewSystem && (
           <div>
-            <label className="block text-sm text-gray-300 mb-1">New System Name *</label>
+            <label className="block text-sm text-gray-300 mb-1">New System Name</label>
             <input
               type="text"
-              required
               value={newSystemName}
               onChange={(e) => setNewSystemName(e.target.value)}
               className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              placeholder="Enter system name"
             />
           </div>
         )}

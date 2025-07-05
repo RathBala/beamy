@@ -15,6 +15,7 @@ export interface SystemData {
   name: string
   contacts: Contact[]
   color?: string
+  isCenter?: boolean
   [key: string]: any
 }
 
@@ -55,6 +56,7 @@ export const useSystems = (uid?: string | null) => {
             id: systemId,
             name: systemData.name || 'Untitled',
             color: systemData.color,
+            isCenter: systemData.isCenter || false,
             contacts
           })
         })

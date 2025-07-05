@@ -27,7 +27,12 @@ const GalaxyViewport = ({ pan, systems }: GalaxyViewportProps) => {
   ]
 
   // Helper to pick position for system index
-  const getPositionForIndex = (idx: number) => {
+  const getPositionForIndex = (idx: number, system?: SystemData) => {
+    // Position Central system near the center of the galaxy
+    if (system?.isCenter || system?.name === 'Central') {
+      return 'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-16 ml-16'
+    }
+    
     if (idx < predefinedPositions.length) return predefinedPositions[idx]
     const randX = Math.floor(Math.random() * 80) + 10 // between 10 and 90
     const randY = Math.floor(Math.random() * 80) + 10
@@ -75,7 +80,7 @@ const GalaxyViewport = ({ pan, systems }: GalaxyViewportProps) => {
         {systems.map((sys, idx) => (
           <ContactConstellation
             key={sys.id}
-            position={getPositionForIndex(idx)}
+            position={getPositionForIndex(idx, sys)}
             title={sys.name}
             titleColor="text-yellow-300"
             stars={buildStars(sys.contacts)}
