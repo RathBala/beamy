@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 import { SystemData } from '../hooks/useSystems'
@@ -43,14 +43,14 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
     return minSize + (value / 100) * (maxSize - minSize)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!user) return
 
     let systemId = selectedSystemId
 
     try {
-      // 1️⃣ Create system first if needed
+      // 1️⃣ Create a new system first if the user chose that option
       if (isCreatingNewSystem) {
         const sysRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
           name: newSystemName || 'Untitled System',
@@ -60,12 +60,17 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
         systemId = sysRef.id
       }
 
+      // 2️⃣ If no system was selected/created, automatically create or use a default system
       if (!systemId) {
-        alert('Please choose a social system (or create a new one)')
-        return
+        const defaultSystemRef = await addDoc(collection(db, 'users', user.uid, 'systems'), {
+          name: 'General',
+          createdAt: serverTimestamp(),
+          color: undefined
+        })
+        systemId = defaultSystemRef.id
       }
 
-      // 2️⃣ Add contact inside that system
+      // 3️⃣ Add contact inside that system
       await addDoc(collection(db, 'users', user.uid, 'systems', systemId, 'contacts'), {
         name,
         type,
@@ -116,7 +121,6 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
             value={selectedSystemId}
             onChange={(e) => setSelectedSystemId(e.target.value)}
             className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            required
           >
             <option value="" disabled>Select an option</option>
             {systems.map((sys) => (
