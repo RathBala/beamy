@@ -18,6 +18,9 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
   const [selectedSystemId, setSelectedSystemId] = useState<string>('')
   const [newSystemName, setNewSystemName] = useState('')
 
+  // Store any error messages so we can surface them in the UI for easier debugging
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
   const isCreatingNewSystem = selectedSystemId === 'NEW_SYSTEM'
 
   // Contact types
@@ -45,7 +48,10 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!user) return
+    if (!user) {
+      setErrorMessage('You need to be logged in to save a contact.')
+      return
+    }
 
     let systemId = selectedSystemId
 
@@ -81,6 +87,12 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
       onClose()
     } catch (err) {
       console.error('Error saving contact', err)
+      // Show the error to the user so they know what went wrong
+      if (err instanceof Error) {
+        setErrorMessage(err.message)
+      } else {
+        setErrorMessage(String(err))
+      }
     }
   }
 
@@ -88,6 +100,13 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
     <div className="fixed inset-0 z-40 bg-black bg-opacity-60 flex items-center justify-center backdrop-blur-sm">
       <form onSubmit={handleSubmit} className="bg-gray-800 w-96 p-6 rounded-lg border border-gray-700 space-y-4">
         <h2 className="text-xl font-semibold text-white mb-2">Add New Contact</h2>
+
+        {/* Display any error that occurred while trying to save */}
+        {errorMessage && (
+          <div className="bg-red-900 text-red-300 px-3 py-2 rounded-md border border-red-700 text-sm">
+            {errorMessage}
+          </div>
+        )}
 
         <div>
           <label className="block text-sm text-gray-300 mb-1">Name *</label>
