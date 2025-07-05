@@ -1,4 +1,5 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import type { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
 import Header from './Header'
 import GalaxyViewport from './GalaxyViewport'
 import ControlPanel from './ControlPanel'
@@ -17,7 +18,7 @@ interface DragState {
   lastPan: Position
 }
 
-const GalaxyView: React.FC = () => {
+const GalaxyView = () => {
   const [pan, setPan] = useState<Position>({ x: 0, y: 0 })
   const [dragState, setDragState] = useState<DragState>({
     isDragging: false,
@@ -27,7 +28,7 @@ const GalaxyView: React.FC = () => {
   
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+  const handleMouseDown = useCallback((e: ReactMouseEvent) => {
     e.preventDefault()
     setDragState({
       isDragging: true,
@@ -53,7 +54,7 @@ const GalaxyView: React.FC = () => {
   }, [])
 
   // Touch support for mobile
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+  const handleTouchStart = useCallback((e: ReactTouchEvent) => {
     e.preventDefault()
     const touch = e.touches[0]
     setDragState({

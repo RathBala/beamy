@@ -1,4 +1,3 @@
-import React from 'react'
 import TwinklingStars from './TwinklingStars'
 import ContactConstellation from './ContactConstellation'
 
@@ -11,7 +10,7 @@ interface GalaxyViewportProps {
   pan: Position
 }
 
-const GalaxyViewport: React.FC<GalaxyViewportProps> = ({ pan }) => {
+const GalaxyViewport = ({ pan }: GalaxyViewportProps) => {
   return (
     <main className="relative w-full h-full overflow-hidden">
       {/* Container that moves with drag */}

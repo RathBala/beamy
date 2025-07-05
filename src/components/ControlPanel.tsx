@@ -1,10 +1,8 @@
-import React from 'react'
-
 interface ControlPanelProps {
   onCenterGalaxy: () => void
 }
 
-const ControlPanel: React.FC<ControlPanelProps> = ({ onCenterGalaxy }) => {
+const ControlPanel = ({ onCenterGalaxy }: ControlPanelProps) => {
   return (
     <div className="absolute bottom-4 left-4 z-20 bg-gray-800 bg-opacity-90 border-2 border-gray-600 p-4 rounded-lg max-w-xs backdrop-blur-sm">
       <h3 className="text-lg font-bold mb-3 text-yellow-400">Galaxy Controls</h3>

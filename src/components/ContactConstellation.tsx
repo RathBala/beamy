@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface Star {
   size: string
   color: string
@@ -17,7 +15,7 @@ interface ContactConstellationProps {
   nebulaBlur?: string
 }
 
-const ContactConstellation: React.FC<ContactConstellationProps> = ({
+const ContactConstellation = ({
   position,
   title,
   titleColor,
@@ -26,7 +24,7 @@ const ContactConstellation: React.FC<ContactConstellationProps> = ({
   nebulaSize,
   nebulaOpacity = 'opacity-5',
   nebulaBlur = 'blur-2xl'
-}) => {
+}: ContactConstellationProps) => {
   return (
     <div className={`absolute ${position}`}>
       <div className={`${titleColor} text-sm font-bold mb-4 text-center`}>{title}</div>

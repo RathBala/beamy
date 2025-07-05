@@ -1,6 +1,4 @@
-import React from 'react'
-
-const TwinklingStars: React.FC = () => {
+const TwinklingStars = () => {
   return (
     <div className="absolute inset-0">
       {/* Small twinkling stars */}

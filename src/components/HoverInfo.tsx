@@ -1,6 +1,4 @@
-import React from 'react'
-
-const HoverInfo: React.FC = () => {
+const HoverInfo = () => {
   return (
     <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-20 bg-gray-800 bg-opacity-95 border-2 border-yellow-500 p-3 rounded-lg max-w-xs opacity-50 backdrop-blur-sm">
       <div className="text-yellow-400 font-bold text-sm mb-1">[Hover Info]</div>

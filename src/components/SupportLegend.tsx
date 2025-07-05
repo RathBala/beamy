@@ -1,6 +1,4 @@
-import React from 'react'
-
-const SupportLegend: React.FC = () => {
+const SupportLegend = () => {
   return (
     <div className="absolute bottom-4 right-4 z-20 bg-gray-800 bg-opacity-90 border-2 border-gray-600 p-4 rounded-lg backdrop-blur-sm">
       <h3 className="text-lg font-bold mb-3 text-yellow-400">Support Types</h3>
