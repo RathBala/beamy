@@ -13,7 +13,8 @@ module.exports = {
       borderRadius: radii,
       boxShadow: shadow,
       fontFamily: {
-        'wireframe': ['Comic Sans MS', 'cursive', 'sans-serif']
+        'wireframe': ['Consolas', 'Monaco', 'Courier New', 'monospace'],
+        'ui': ['Inter', 'Segoe UI', 'Roboto', 'system-ui', 'sans-serif']
       },
       borderStyle: {
         'dotted': 'dotted',

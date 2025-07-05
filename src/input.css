@@ -5,7 +5,7 @@
 /* Custom wireframe styles */
 @layer base {
   body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'system-ui', sans-serif;
   }
 }
 
