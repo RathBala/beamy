@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useState } from 'react'
+import type { FormEvent, MouseEvent as ReactMouseEvent } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 import { SystemData } from '../hooks/useSystems'
@@ -32,7 +33,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
   ]
 
   // Closeness labels
-  const getClosenessLabel = (value: number) => {
+  const getClosenessLabel = (value: number): string => {
     if (value < 25) return 'Not Close'
     if (value < 50) return 'Somewhat Close'
     if (value < 75) return 'Close'
@@ -40,7 +41,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
   }
 
   // Star size based on closeness
-  const getStarSize = (value: number) => {
+  const getStarSize = (value: number): number => {
     const minSize = 16
     const maxSize = 32
     return minSize + (value / 100) * (maxSize - minSize)
@@ -126,7 +127,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
             className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
           >
             <option value="" disabled>Select relationship type</option>
-            {contactTypes.map((t) => (
+            {contactTypes.map((t: string) => (
               <option key={t} value={t}>{t}</option>
             ))}
           </select>
@@ -171,10 +172,10 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
                   left: `${closeness}%`,
                   transform: `translateX(-50%) translateY(-50%)`
                 }}
-                onMouseDown={(e) => {
+                onMouseDown={(e: ReactMouseEvent) => {
                   e.preventDefault()
                   const rect = e.currentTarget.parentElement!.getBoundingClientRect()
-                  const handleMouseMove = (moveEvent: MouseEvent) => {
+                  const handleMouseMove = (moveEvent: globalThis.MouseEvent) => {
                     const x = moveEvent.clientX - rect.left
                     const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100))
                     setCloseness(Math.round(percentage))
