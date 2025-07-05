@@ -1,7 +1,19 @@
-const GalaxyStats = () => {
+interface GalaxyStatsProps {
+  onClose: () => void
+}
+
+const GalaxyStats = ({ onClose }: GalaxyStatsProps) => {
   return (
-    <div className="absolute top-20 right-4 z-20 bg-gray-800 bg-opacity-90 border-2 border-gray-600 p-4 rounded-lg backdrop-blur-sm">
-      <h3 className="text-lg font-bold mb-3 text-yellow-400">Galaxy Scope</h3>
+    <div className="fixed top-16 right-4 z-30 bg-gray-800 bg-opacity-95 border border-gray-600 rounded-lg p-4 backdrop-blur-sm shadow-lg">
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-lg font-bold text-yellow-400">Galaxy Scope</h3>
+        <button
+          onClick={onClose}
+          className="p-1 text-gray-400 hover:text-white transition-colors"
+        >
+          ✕
+        </button>
+      </div>
       <div className="space-y-2 text-sm">
         <div className="flex justify-between">
           <span className="text-gray-300">Total Stars:</span>

@@ -18,6 +18,13 @@ interface DragState {
   lastPan: Position
 }
 
+interface UIState {
+  showStats: boolean
+  showControls: boolean
+  showLegend: boolean
+  showMenu: boolean
+}
+
 const GalaxyView = () => {
   const [pan, setPan] = useState<Position>({ x: 0, y: 0 })
   const [dragState, setDragState] = useState<DragState>({
@@ -26,7 +33,21 @@ const GalaxyView = () => {
     lastPan: { x: 0, y: 0 }
   })
   
+  const [uiState, setUiState] = useState<UIState>({
+    showStats: false,
+    showControls: false,
+    showLegend: false,
+    showMenu: false
+  })
+  
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const togglePanel = useCallback((panel: keyof UIState) => {
+    setUiState(prev => ({
+      ...prev,
+      [panel]: !prev[panel]
+    }))
+  }, [])
 
   const handleMouseDown = useCallback((e: ReactMouseEvent) => {
     e.preventDefault()
@@ -105,7 +126,36 @@ const GalaxyView = () => {
 
   return (
     <>
-      <Header />
+      {/* Hamburger Menu Button */}
+      <button
+        onClick={() => togglePanel('showMenu')}
+        className="fixed top-4 left-4 z-30 p-3 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm"
+      >
+        <div className="w-6 h-6 flex flex-col justify-center items-center">
+          <span className="block w-5 h-0.5 bg-gray-300 mb-1"></span>
+          <span className="block w-5 h-0.5 bg-gray-300 mb-1"></span>
+          <span className="block w-5 h-0.5 bg-gray-300"></span>
+        </div>
+      </button>
+
+      {/* Stats Toggle Button */}
+      <button
+        onClick={() => togglePanel('showStats')}
+        className="fixed top-4 right-4 z-30 px-3 py-2 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm text-sm text-gray-300"
+      >
+        18 ⭐
+      </button>
+
+      {/* Support Legend Toggle Button */}
+      <button
+        onClick={() => togglePanel('showLegend')}
+        className="fixed top-4 right-20 z-30 p-2 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm text-sm text-gray-300"
+      >
+        ?
+      </button>
+
+      {/* Conditionally render Header/Menu */}
+      {uiState.showMenu && <Header onClose={() => togglePanel('showMenu')} />}
       
       <div 
         ref={containerRef}
@@ -117,15 +167,40 @@ const GalaxyView = () => {
         <GalaxyViewport pan={pan} />
       </div>
 
-      <ControlPanel onCenterGalaxy={centerGalaxy} />
-      <GalaxyStats />
-      <SupportLegend />
-      <HoverInfo />
-      
-      {/* Bottom Instructions */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 text-center text-gray-400 text-sm p-2">
-        Drag to explore • Pinch to zoom • Tap menu for options
+      {/* FAB System */}
+      <div className="fixed bottom-6 right-6 z-30">
+        <div className="flex flex-col items-end gap-3">
+          {uiState.showControls && (
+            <div className="flex flex-col gap-2 mb-2">
+              <button className="px-4 py-2 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm text-sm text-gray-300 whitespace-nowrap">
+                ➕ Add New Contact
+              </button>
+              <button 
+                onClick={centerGalaxy}
+                className="px-4 py-2 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm text-sm text-gray-300 whitespace-nowrap"
+              >
+                🎯 Centre Galaxy
+              </button>
+              <button className="px-4 py-2 bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors backdrop-blur-sm text-sm text-gray-300 whitespace-nowrap">
+                🌌 Create System
+              </button>
+            </div>
+          )}
+          <button
+            onClick={() => togglePanel('showControls')}
+            className="w-14 h-14 bg-yellow-500 hover:bg-yellow-400 rounded-full shadow-lg flex items-center justify-center text-2xl transition-all duration-200 transform hover:scale-105"
+          >
+            {uiState.showControls ? '✕' : '⚙️'}
+          </button>
+        </div>
       </div>
+
+      {/* Conditionally render other panels */}
+      {uiState.showStats && <GalaxyStats onClose={() => togglePanel('showStats')} />}
+      {uiState.showLegend && <SupportLegend onClose={() => togglePanel('showLegend')} />}
+      
+      {/* HoverInfo - only shows when hovering over contacts */}
+      <HoverInfo />
     </>
   )
 }
