@@ -1,3 +1,5 @@
+import React from 'react'
+void React;
 import { useState, useRef, useCallback, useEffect } from 'react'
 import type { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
 import GalaxyViewport from './GalaxyViewport'

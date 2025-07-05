@@ -1,3 +1,5 @@
+import React from 'react'
+void React;
 import GalaxyView from './components/GalaxyView'
 import Login from './components/Login'
 import { useAuth } from './contexts/AuthContext'

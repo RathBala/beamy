@@ -1,3 +1,6 @@
+import React from 'react'
+void React;
+
 const TwinklingStars = () => {
   return (
     <div className="absolute inset-0">

@@ -1,4 +1,6 @@
+import React from 'react'
 import type { FC } from 'react'
+void React;
 
 export interface Star {
   size: string

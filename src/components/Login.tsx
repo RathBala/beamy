@@ -1,3 +1,5 @@
+import React from 'react'
+void React;
 import { useAuth } from '../contexts/AuthContext'
 
 const Login = () => {

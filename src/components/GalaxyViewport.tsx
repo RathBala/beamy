@@ -1,3 +1,5 @@
+import React from 'react'
+void React;
 import TwinklingStars from './TwinklingStars'
 import ContactConstellation from './ContactConstellation'
 import type { Star } from './ContactConstellation'

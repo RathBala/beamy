@@ -1,3 +1,5 @@
+import React from 'react'
+void React;
 import { useState } from 'react'
 import type { FormEvent, MouseEvent as ReactMouseEvent } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'

@@ -1,3 +1,6 @@
+import React from 'react'
+void React;
+
 interface ContactData {
   name: string
   relationship: string

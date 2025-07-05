@@ -1,3 +1,5 @@
+import React from 'react'
+void React;
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
