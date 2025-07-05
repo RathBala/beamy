@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 import { SystemData } from '../hooks/useSystems'
@@ -43,7 +43,7 @@ const ContactForm = ({ systems, onClose }: ContactFormProps) => {
     return minSize + (value / 100) * (maxSize - minSize)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!user) return
 
