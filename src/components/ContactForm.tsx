@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import type { FormEvent, MouseEvent as ReactMouseEvent } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -12,15 +12,15 @@ interface ContactFormProps {
 
 const ContactForm = ({ systems, onClose }: ContactFormProps) => {
   const { user } = useAuth()
-  const [name, setName] = useState('')
-  const [type, setType] = useState('')
-  const [closeness, setCloseness] = useState(50) // 0-100 scale
+  const [name, setName] = React.useState('')
+  const [type, setType] = React.useState('')
+  const [closeness, setCloseness] = React.useState(50) // 0-100 scale
 
-  const [selectedSystemId, setSelectedSystemId] = useState<string>('')
-  const [newSystemName, setNewSystemName] = useState('')
+  const [selectedSystemId, setSelectedSystemId] = React.useState<string>('')
+  const [newSystemName, setNewSystemName] = React.useState('')
 
   // Store any error messages so we can surface them in the UI for easier debugging
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
 
   const isCreatingNewSystem = selectedSystemId === 'NEW_SYSTEM'
 

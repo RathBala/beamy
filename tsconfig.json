@@ -8,6 +8,12 @@
 
     /* Bundler mode */
     "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "react": ["./node_modules/@types/react"],
+      "react-dom": ["./node_modules/@types/react-dom"],
+      "firebase/*": ["./node_modules/firebase/*"]
+    },
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
